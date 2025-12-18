@@ -8,7 +8,7 @@ import {
 import { useState } from "react";
 
 export default function Navbar() {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
   const links = [
     {
       name: "Sobre mí",
@@ -39,7 +39,7 @@ export default function Navbar() {
           onClick={() => setShow(!show)}
           className={`lg:hidden h-14 w-14 ${
             show ? "text-gray-700" : "text-white"
-          }    absolute cursor-pointer`}
+          }    absolute cursor-pointer z-10 `}
           style={{
             textShadow: "40px 4px 0 #000000, 40px 4px 0 #000000",
           }}
@@ -49,7 +49,7 @@ export default function Navbar() {
       <nav
         className={`${
           show && "hidden"
-        }   flex bg-[#191313] gap-12 lg:gap-0 w-fit h-screen lg:h-auto lg:w-full flex-col lg:flex-row text-white px-12 py-24 lg:px-6 lg:py-4  items-center  lg:justify-between shadow-md`}
+        }   fixed z-0 flex bg-[#191313] gap-12 lg:gap-0 w-fit h-screen lg:h-auto lg:w-full flex-col lg:flex-row text-white px-12 py-24 lg:px-6 lg:py-4  items-center  lg:justify-between shadow-md`}
       >
         <div className="text-xl lg:text-md  font-semibold">
           Developer Full Stack

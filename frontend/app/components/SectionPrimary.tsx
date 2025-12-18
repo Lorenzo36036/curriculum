@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import IconSocials from "./IconSocials";
 
 function SectionPrimary() {
   return (
@@ -35,45 +35,7 @@ function SectionPrimary() {
         </div>
 
         <div className="flex gap-6 scale-125 my-4">
-          <Link href={""} className="cursor-pointer">
-            <Image
-              src="/svg/linkdl-rounded.svg"
-              width={40}
-              height={40}
-              alt="icon-linkdl"
-            />
-          </Link>
-
-          <Link href={""} className="cursor-pointer">
-            <Image
-              src="/svg/github-rounded.svg"
-              width={40}
-              height={40}
-              alt="icon-github"
-            />
-          </Link>
-
-          <Link href={""}>
-            <Image
-              className="cursor-pointer"
-              src="/svg/email-rounded.svg"
-              width={40}
-              height={40}
-              alt="icon-email"
-            />
-          </Link>
-        </div>
-
-        <div className="flex w-full absolute bottom-16  justify-center  ">
-          <Link href={""}>
-            <Image
-              className="cursor-pointer"
-              src="/svg/arrow.svg"
-              width={40}
-              height={40}
-              alt="icon-arrow"
-            />
-          </Link>
+          <IconSocials />
         </div>
       </div>
     </div>
