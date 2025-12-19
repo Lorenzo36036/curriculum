@@ -113,7 +113,7 @@ const ContactPage = () => {
               Completa el formulario y te responderé en menos de 24 horas
             </p>
 
-            <form className="space-y-6">
+            <form className="space-y-6 text-gray-500">
               <div className="space-y-2">
                 <label
                   htmlFor="nombre"
@@ -125,7 +125,7 @@ const ContactPage = () => {
                   type="text"
                   id="nombre"
                   placeholder="Tu nombre completo"
-                  className="block w-full px-5 py-4 border-gray-200 rounded-lg shadow-sm placeholder-gray-300 focus:ring-blue-500 focus:border-blue-500 sm:text-base border"
+                  className="block w-full px-5 py-4 border-gray-400 rounded-lg shadow-sm placeholder-gray-300 focus:ring-blue-500 focus:border-blue-500 sm:text-base border"
                   required
                 />
               </div>
@@ -141,7 +141,7 @@ const ContactPage = () => {
                   type="email"
                   id="email"
                   placeholder="tu@email.com"
-                  className="block w-full px-5 py-4 border-gray-200 rounded-lg shadow-sm placeholder-gray-300 focus:ring-blue-500 focus:border-blue-500 sm:text-base border"
+                  className="block w-full px-5 py-4 border-gray-400 rounded-lg shadow-sm placeholder-gray-300 focus:ring-blue-500 focus:border-blue-500 sm:text-base border"
                   required
                 />
               </div>
@@ -157,7 +157,7 @@ const ContactPage = () => {
                   type="text"
                   id="asunto"
                   placeholder="¿De qué quieres hablar?"
-                  className="block w-full px-5 py-4 border-gray-200 rounded-lg shadow-sm placeholder-gray-300 focus:ring-blue-500 focus:border-blue-500 sm:text-base border"
+                  className="block w-full px-5 py-4 border-gray-400  rounded-lg shadow-sm placeholder-gray-300 focus:ring-blue-500 focus:border-blue-500 sm:text-base border"
                   required
                 />
               </div>
@@ -173,7 +173,7 @@ const ContactPage = () => {
                   id="mensaje"
                   rows={6}
                   placeholder="Cuéntame sobre tu proyecto..."
-                  className="block w-full px-5 py-4 border-gray-200 rounded-lg shadow-sm placeholder-gray-300 focus:ring-blue-500 focus:border-blue-500 sm:text-base border resize-none"
+                  className="block w-full px-5 py-4 border-gray-400  rounded-lg shadow-sm placeholder-gray-300 focus:ring-blue-500 focus:border-blue-500 sm:text-base border resize-none"
                   required
                 ></textarea>
               </div>
