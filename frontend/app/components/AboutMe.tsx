@@ -10,16 +10,13 @@ const AboutMe = () => {
   ];
 
   return (
-    <section className="bg-white py-16 px-4 sm:px-6 lg:px-8">
+    <section className="bg-white py-16 px-4 sm:px-6 lg:px-8" id="sobre-mi">
       <div className="max-w-4xl mx-auto">
-        {/* Título Principal */}
         <h2 className="text-3xl font-normal text-center text-gray-800 mb-12">
           Sobre Mí
-          {/* Línea azul simple debajo del título */}
           <span className="block w-12 h-1 bg-blue-500 mx-auto mt-2"></span>
         </h2>
 
-        {/* Sección de Historia Profesional */}
         <div className="space-y-8 text-gray-700">
           <h3 className="text-xl font-medium text-gray-800">Mi Historia Profesional</h3>
           <p className="text-lg leading-relaxed">
@@ -33,7 +30,6 @@ const AboutMe = () => {
           </p>
         </div>
 
-        {/* Sección de Valores y Enfoque de Trabajo */}
         <div className="mt-16">
           <h3 className="text-xl font-medium text-gray-800 mb-8">Valores y Enfoque de Trabajo</h3>
 
@@ -43,7 +39,6 @@ const AboutMe = () => {
                 key={index}
                 className="flex flex-col items-start p-2"
               >
-                {/* Indicador de punto azul, simulando el diseño */}
                 <div className="flex items-center mb-1">
                   <span className="w-2 h-2 rounded-full bg-blue-500 mr-2"></span>
                   <span className="text-sm font-semibold text-gray-800">{value.title}</span>
