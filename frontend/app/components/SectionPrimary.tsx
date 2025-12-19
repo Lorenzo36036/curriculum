@@ -3,7 +3,7 @@ import IconSocials from "./IconSocials";
 
 function SectionPrimary() {
   return (
-    <div className="h-screen w-full bg-linear-to-b from-blue-100 to-pink-100">
+    <section className="h-screen w-full bg-linear-to-b from-blue-100 to-pink-100">
       <div className="gap-7 h-full w-full flex flex-col items-center justify-center text-black">
         <div className="space-y-4 flex-col text-center">
           <span className="text-[#155DFC] text-xl">Hola soy</span>
@@ -38,7 +38,7 @@ function SectionPrimary() {
           <IconSocials />
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 

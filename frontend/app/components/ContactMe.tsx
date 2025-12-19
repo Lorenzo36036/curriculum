@@ -4,7 +4,7 @@ import IconSocials from "./IconSocials";
 
 const ContactPage = () => {
   return (
-    <div className="min-h-screen bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+    <div id="contacto" className="min-h-screen bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         <header className="text-center mb-16">
           <h1 className="text-4xl font-bold text-gray-900">Contacto</h1>

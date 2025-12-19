@@ -8,7 +8,7 @@ import {
 import { useState } from "react";
 
 export default function Navbar() {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const links = [
     {
       name: "Sobre mí",
@@ -23,14 +23,15 @@ export default function Navbar() {
       href: "#proyectos",
     },
     {
-      name: "Contactos",
-      href: "#contactos",
+      name: "Contacto",
+      href: "#contacto",
     },
     {
       name: "Consultar",
       href: "#consultar",
     },
   ];
+ 
 
   return (
     <>
@@ -38,7 +39,7 @@ export default function Navbar() {
         <Bars3Icon
           onClick={() => setShow(!show)}
           className={`lg:hidden h-14 w-14 ${
-            show ? "text-gray-700" : "text-white"
+            show ? "text-white" : "text-gray-700"
           }    absolute cursor-pointer z-10 `}
           style={{
             textShadow: "40px 4px 0 #000000, 40px 4px 0 #000000",
@@ -48,10 +49,10 @@ export default function Navbar() {
 
       <nav
         className={`${
-          show && "hidden"
-        }   fixed z-0 flex bg-[#191313] gap-12 lg:gap-0 w-fit h-screen lg:h-auto lg:w-full flex-col lg:flex-row text-white px-12 py-24 lg:px-6 lg:py-4  items-center  lg:justify-between shadow-md`}
+          show ? "flex" : "hidden"
+        } lg:flex  fixed z-0 flex bg-[#191313] gap-12 lg:gap-0 w-fit h-screen lg:h-auto lg:w-full flex-col lg:flex-row text-white px-12 py-24 lg:px-6 lg:py-4  items-center  lg:justify-between shadow-md`}
       >
-        <div className="text-xl lg:text-md  font-semibold">
+        <div className="text-xl  lg:text-lg xl:text-xl  font-semibold">
           Developer Full Stack
         </div>
         <ul className=" flex flex-col lg:flex-row gap-14 lg:gap-4 ">
@@ -59,7 +60,7 @@ export default function Navbar() {
             <li key={index}>
               <Link
                 href={item.href}
-                className="hover:text-blue-400 text-xl font-normal"
+                className="hover:text-blue-400 text-lg xl:text-xl font-normal"
               >
                 {item.name}
               </Link>
