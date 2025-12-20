@@ -20,14 +20,14 @@ function SectionPrimary() {
 
         <div className="flex gap-6">
           <Link
-            href="/register"
+            href="#contacto"
             className="flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2  w-36  rounded-md font-medium"
           >
             Contactar
           </Link>
 
           <Link
-            href="/login"
+            href="#proyectos"
             className="flex  items-center justify-center gap-1 bg-white  text-black  py-2 w-36 rounded-md font-medium"
           >
             Ver proyectos

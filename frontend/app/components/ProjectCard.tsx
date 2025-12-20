@@ -36,7 +36,7 @@ const projects = [
 
 export default function ProjectCarousel() {
   return (
-    <div id="proyectos" className="bg-gray-50 py-12">
+    <div id="proyectos" className="bg-gray-50 py-24">
       <div className="text-center mb-12">
         <h2 className="text-4xl font-normal text-gray-800">
           Proyectos Profesionales
@@ -76,7 +76,6 @@ export default function ProjectCarousel() {
         ))}
       </div>
       
-      {/* Indicador visual de scroll (opcional) */}
       <p className="text-center text-gray-400 text-sm mt-4 md:hidden">
         ← Desliza para ver más →
       </p>
