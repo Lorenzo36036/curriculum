@@ -26,10 +26,10 @@ export default function Navbar() {
       name: "Contacto",
       href: "#contacto",
     },
-    {
-      name: "Consultar",
-      href: "#consultar",
-    },
+    // {
+    //   name: "Consultar",
+    //   href: "#consultar",
+    // },
   ];
  
 
@@ -49,8 +49,8 @@ export default function Navbar() {
 
       <nav
         className={`${
-          show ? "flex" : "hidden"
-        } lg:flex  fixed z-0 flex bg-[#191313] gap-12 lg:gap-0 w-fit h-screen lg:h-auto lg:w-full flex-col lg:flex-row text-white px-12 py-24 lg:px-6 lg:py-4  items-center  lg:justify-between shadow-md`}
+          show ? "opacity-100 flex" : "opacity-0 -translate-x-full lg:translate-x-0 "
+        } lg:opacity-100 transition-all duration-500 ease-in-out lg:flex  fixed z-0 flex bg-[#191313] gap-12 lg:gap-0 w-fit h-screen lg:h-auto lg:w-full flex-col lg:flex-row text-white px-12 py-24 lg:px-6 lg:py-4  items-center  lg:justify-between shadow-md`}
       >
         <div className="text-xl  lg:text-lg xl:text-xl  font-semibold">
           Developer Full Stack
@@ -64,8 +64,17 @@ export default function Navbar() {
               >
                 {item.name}
               </Link>
+
+               
             </li>
           ))}
+          <Link
+                 href={"/"}
+                 onClick={() => { alert("Por favor logeate primero")  }}
+                className="hover:text-blue-400 text-lg xl:text-xl font-normal"
+              >
+                Consultar
+              </Link>
         </ul>
 
         <div className="flex flex-col items-center  lg:flex-row space-y-8 lg:space-y-0  lg:space-x-4">
