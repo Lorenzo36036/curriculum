@@ -85,7 +85,7 @@ export default function Navbar() {
             className="flex  items-center justify-center gap-1 bg-white  text-black  py-2 w-36 rounded-md font-medium"
           >
             <ArrowRightStartOnRectangleIcon className="w-5 h-5" />
-            Iniciar sesion
+            Iniciar sesión
           </Link>
           <Link
             href="/register"
