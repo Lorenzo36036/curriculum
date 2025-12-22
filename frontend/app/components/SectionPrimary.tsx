@@ -1,5 +1,6 @@
 import Link from "next/link";
 import IconSocials from "./IconSocials";
+import { ChevronDown } from "lucide-react";
 
 function SectionPrimary() {
   return (
@@ -36,6 +37,10 @@ function SectionPrimary() {
 
         <div className="flex gap-6 scale-125 my-4">
           <IconSocials />
+        </div>
+
+        <div className="absolute bottom-8 flex w-full  justify-center items-center">
+          <ChevronDown size={74} className="text-gray-500   animate-bounce" />
         </div>
       </div>
     </section>
