@@ -1,7 +1,6 @@
 "use server";
 import { Resend } from "resend";
 
-const apiKey = process.env.RESEND_API_KEY;
 
 export async function sendEmailToUser({
   name,
@@ -14,6 +13,7 @@ export async function sendEmailToUser({
   subject: string;
   message: string;
 }) {
+  const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     return {success: false, error: "La API Key no está configurada en el servidor"};    
   }
