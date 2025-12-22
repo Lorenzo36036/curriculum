@@ -1,15 +1,33 @@
-import React from 'react'
+"use client"
 
-function page() {
+import FormField from '@/app/components/input/FormField';
+import { LoginData, LoginSchema } from '@/app/tools/Zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from 'react-hook-form';
+
+export default function Login() {
+  
+   const {
+      register,
+      handleSubmit,
+      formState: { errors },
+    } = useForm<LoginData>({
+      resolver: zodResolver(LoginSchema),
+    });
+
+    const onSubmitData = async (data: LoginData): Promise<void> => {
+      console.log("SUCCESS", data);
+    };
+  
   return (
-    <section className="bg-white h-screen w-screen flex items-center justify-center">
+    <form onSubmit={handleSubmit(onSubmitData)} className="bg-white h-screen w-screen flex items-center justify-center">
       <div className="w-full flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <div className="w-full rounded-lg  md:mt-0 sm:max-w-xl xl:p-0 bg-gray-50 border-gray-200 border-2 shadow-2xl">
           <div className="w-full p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-3xl text-center ">
               Iniciar sesión
             </h1>
-            <form className="space-y-4 md:space-y-6" action="#">
+            <div className="space-y-4 md:space-y-6">
               <div>
                 <label
                   htmlFor="email"
@@ -17,14 +35,14 @@ function page() {
                 >
                   Email
                 </label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  className="bg-gray-50 border border-gray-300 focus:outline-blue-500 text-gray-900 text-sm rounded-lg  block w-full p-2.5"
-                  placeholder="Tucorreo@gmail.com"
-                  required
-                />
+                <FormField
+                    id="email"
+                    type="email"
+                    placeholder="Email"
+                    name="email"
+                    register={register}
+                    error={errors.email}
+                  />
               </div>
               <div>
                 <label
@@ -33,14 +51,14 @@ function page() {
                 >
                   Contraseña
                 </label>
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="••••••••"
-                  className="focus:outline-blue-500 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5   "
-                  required
-                />
+                <FormField
+                    type="password"
+                    placeholder="Contraseña"
+                    name="password"
+                    register={register}
+                    error={errors.password}
+                    id={"password"}
+                  />
               </div>
               <button
                 type="submit"
@@ -57,12 +75,11 @@ function page() {
                   Registrate aqui
                 </a>
               </p>
-            </form>
+            </div>
           </div>
         </div>
       </div>
-    </section>
+    </form>
   )
 }
 
-export default page
