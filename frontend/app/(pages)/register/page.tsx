@@ -104,12 +104,11 @@ export default function Register() {
                   <div className="ml-3 text-sm">
                     <label htmlFor="terms" className="font-light text-gray-900">
                       Yo accepto{" "}
-                      <a
+                      <span
                         className="font-medium text-blue-600 hover:underline"
-                        href="#"
                       >
                         Terminos y condiciones
-                      </a>
+                      </span>
                     </label>
                   </div>
                 </div>
