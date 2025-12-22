@@ -27,6 +27,23 @@ export default function Register() {
                 Registro
               </h1>
               <div className="space-y-4 md:space-y-6">
+                 <div>
+                  <label
+                    htmlFor="username"
+                    className="block mb-2 text-sm font-medium text-gray-900 "
+                  >
+                    Usuario
+                  </label>
+                  <FormField
+                    id="username"
+                    type="text"
+                    placeholder="Usuario"
+                    name="username"
+                    register={register}
+                    error={errors.username}
+                  />
+                </div>
+                
                 <div>
                   <label
                     htmlFor="email"
