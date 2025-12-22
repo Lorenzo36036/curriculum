@@ -17,4 +17,18 @@ export type FormFieldProps<T extends FieldValues> = {
   valueAsNumber?: boolean;
 };
 
+
+
+export type FormFielTextareadProps<T extends FieldValues> = {
+  id: string;
+  name: Path<T>;
+  placeholder: string;
+  register: UseFormRegister<T>;
+  error: FieldError | undefined;
+  valueAsNumber?: boolean;
+};
+
+
+
+
 export type ValidFieldNames =  | "email" | "password" | "confirmPassword" | "username";
