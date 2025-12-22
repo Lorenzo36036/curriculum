@@ -1,10 +1,49 @@
 // components/ContactPage.js
+"use client";
 import { Mail, Phone, MapPin, CheckCircle, Send } from "lucide-react";
 import IconSocials from "./IconSocials";
+import FormField from "./input/FormField";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormContactSchema, formContactData } from "../tools/Zod";
+import FormFieldTextarea from "./input/FormFieldTextarea";
+import { sendEmailToUser } from "../api/send";
+import { useState } from "react";
+import Spiner from "./Spiner";
 
 const ContactPage = () => {
+  const [send, setSend] = useState<boolean | null>(null);
+  const [dowload, setDowload] = useState<boolean>(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormContactSchema>({
+    resolver: zodResolver(formContactData),
+  });
+
+  const onSubmitData = async (data: FormContactSchema): Promise<void> => {
+    try {
+      setDowload(true);
+      const res = await sendEmailToUser(data);
+      console.log("SUCCESS", res);
+      setSend(res.success);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      } else {
+        throw new Error("Ocurrió un error inesperado");
+      }
+    } finally {
+      setDowload(false);
+    }
+  };
+
   return (
-    <div id="contacto" className="min-h-screen bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+    <div
+      id="contacto"
+      className="min-h-screen bg-gray-50 py-16 px-4 sm:px-6 lg:px-8"
+    >
       <div className="max-w-6xl mx-auto">
         <header className="text-center mb-16">
           <h1 className="text-4xl font-bold text-gray-900">Contacto</h1>
@@ -114,20 +153,25 @@ const ContactPage = () => {
               Completa el formulario y te responderé en menos de 24 horas
             </p>
 
-            <form className="space-y-6 text-gray-500">
+            <form
+              className="space-y-6 text-gray-500"
+              onSubmit={handleSubmit(onSubmitData)}
+              method="POST"
+            >
               <div className="space-y-2">
                 <label
-                  htmlFor="nombre"
+                  htmlFor="name"
                   className="block text-sm font-semibold text-gray-700"
                 >
                   Nombre *
                 </label>
-                <input
+                <FormField
+                  id="name"
                   type="text"
-                  id="nombre"
-                  placeholder="Tu nombre completo"
-                  className="block w-full px-5 py-4 border-gray-400 rounded-lg shadow-sm placeholder-gray-300 focus:outline-blue-500 focus:border-blue-500 sm:text-base border"
-                  required
+                  placeholder="Nombre completo"
+                  name="name"
+                  register={register}
+                  error={errors.name}
                 />
               </div>
 
@@ -138,28 +182,31 @@ const ContactPage = () => {
                 >
                   Email *
                 </label>
-                <input
-                  type="email"
+                <FormField
                   id="email"
-                  placeholder="tu@email.com"
-                  className="block w-full px-5 py-4 border-gray-400 rounded-lg shadow-sm placeholder-gray-300 focus:outline-blue-500 focus:border-blue-500 sm:text-base border"
-                  required
+                  type="email"
+                  placeholder="Email"
+                  name="email"
+                  register={register}
+                  error={errors.email}
                 />
               </div>
 
               <div className="space-y-2">
                 <label
-                  htmlFor="asunto"
+                  htmlFor="subject"
                   className="block text-sm font-semibold text-gray-700"
                 >
                   Asunto *
                 </label>
-                <input
+
+                <FormField
+                  id="subject"
                   type="text"
-                  id="asunto"
-                  placeholder="¿De qué quieres hablar?"
-                  className="block w-full px-5 py-4 border-gray-400  rounded-lg shadow-sm placeholder-gray-300 focus:outline-blue-500 focus:border-blue-500 sm:text-base border"
-                  required
+                  placeholder="Asunto del mensaje"
+                  name="subject"
+                  register={register}
+                  error={errors.subject}
                 />
               </div>
 
@@ -170,23 +217,54 @@ const ContactPage = () => {
                 >
                   Mensaje *
                 </label>
-                <textarea
-                  id="mensaje"
-                  rows={6}
-                  placeholder="Cuéntame sobre tu proyecto..."
-                  className="block w-full px-5 py-4 border-gray-400  rounded-lg shadow-sm placeholder-gray-300 focus:outline-blue-500 focus:border-blue-500 sm:text-base border resize-none"
-                  required
-                ></textarea>
+                <FormFieldTextarea
+                  id="message"
+                  placeholder="Motivo del mensaje"
+                  name="message"
+                  register={register}
+                  error={errors.message}
+                />
               </div>
 
               <div className="pt-4">
                 <button
                   type="submit"
-                  className="w-full inline-flex items-center justify-center px-8 py-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:outline-blue-500 transition-all duration-200 hover:shadow-xl"
+                  className={`${
+                    send === true
+                      ? "bg-gray-400"
+                      : "hover:bg-blue-700 hover:shadow-xl"
+                  } w-full inline-flex items-center justify-center px-8 py-4 border border-transparent rounded-lg text-lg font-bold text-white bg-blue-600  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:outline-blue-500 transition-all duration-200 shadow-lg `}
+                  disabled={send === true}
                 >
-                  Enviar Mensaje
-                  <Send className="w-6 h-6 ml-3 -rotate-12" strokeWidth={2} />
+                  {dowload ? (
+                    <Spiner />
+                  ) : (
+                    <>
+                      <span>Enviar Mensaje</span>
+                      <Send
+                        className="w-6 h-6 ml-3 -rotate-12"
+                        strokeWidth={2}
+                      />
+                    </>
+                  )}
                 </button>
+
+                <div className="w-full text-center">
+                  <span
+                    className={`${
+                      send === null ? "opacity-0" : "opacity-100"
+                    } ${
+                      send ? "text-green-600" : "text-red-600"
+                    } ase-in-out transition-all duration-399   mt-4 text-xl font-medium text-gray-700 block`}
+                  >
+                    {" "}
+                    {send === true
+                      ? "Mensaje enviado correctamente"
+                      : "Ocurrio un error vuelve a intentarlo"}
+                  </span>
+
+                  <span className="text-red-600 text-lg"></span>
+                </div>
               </div>
             </form>
           </div>
