@@ -23,10 +23,10 @@ export async function sendEmailToUser({
     const { data, error } = await resend.emails.send({
       from: "Acme <onboarding@resend.dev>",
       to: ["alejandro36036@gmail.com"],
-      subject: `Nuevo mensaje de ${name}: ${subject}`,
+      subject: `Mensaje de ${name}: ${subject}`,
       html: `
-    <p><strong>Remitente:</strong> ${email}</p>
-    <p><strong>Mensaje:</strong></p>
+    <p><strong>Remitente de:</strong> ${email}</p>
+    <p><strong>Mensaje de:${name}</strong></p>
     <p>${message}</p>
   `,
     });
