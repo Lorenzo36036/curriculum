@@ -163,7 +163,7 @@ const ContactPage = () => {
                   htmlFor="name"
                   className="block text-sm font-semibold text-gray-700"
                 >
-                  Nombre *
+                  Nombre 
                 </label>
                 <FormField
                   id="name"
@@ -180,7 +180,7 @@ const ContactPage = () => {
                   htmlFor="email"
                   className="block text-sm font-semibold text-gray-700"
                 >
-                  Email *
+                  Email 
                 </label>
                 <FormField
                   id="email"
@@ -197,7 +197,7 @@ const ContactPage = () => {
                   htmlFor="subject"
                   className="block text-sm font-semibold text-gray-700"
                 >
-                  Asunto *
+                  Asunto 
                 </label>
 
                 <FormField
@@ -215,7 +215,7 @@ const ContactPage = () => {
                   htmlFor="mensaje"
                   className="block text-sm font-semibold text-gray-700"
                 >
-                  Mensaje *
+                  Mensaje 
                 </label>
                 <FormFieldTextarea
                   id="message"
