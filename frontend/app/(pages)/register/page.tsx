@@ -2,18 +2,17 @@
 import FormField from "@/app/components/input/FormField";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UserSchema, FormData } from "@/app/tools/Zod";
-
+import { RegisterData, RegisterDataSchema } from "@/app/tools/Zod"
 export default function Register() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({
-    resolver: zodResolver(UserSchema),
+  } = useForm<RegisterDataSchema>({
+    resolver: zodResolver(RegisterData),
   });
 
-  const onSubmitData = async (data: FormData): Promise<void> => {
+  const onSubmitData = async (data: RegisterDataSchema): Promise<void> => {
     console.log("SUCCESS", data);
   };
 

@@ -1,7 +1,7 @@
 "use client"
 
 import FormField from '@/app/components/input/FormField';
-import { LoginData, LoginSchema } from '@/app/tools/Zod';
+import { LoginData, LoginDataSchema } from '@/app/tools/Zod';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from 'react-hook-form';
 
@@ -11,11 +11,11 @@ export default function Login() {
       register,
       handleSubmit,
       formState: { errors },
-    } = useForm<LoginData>({
-      resolver: zodResolver(LoginSchema),
+    } = useForm<LoginDataSchema>({
+      resolver: zodResolver(LoginData),
     });
 
-    const onSubmitData = async (data: LoginData): Promise<void> => {
+    const onSubmitData = async (data: LoginDataSchema): Promise<void> => {
       console.log("SUCCESS", data);
     };
   
