@@ -4,14 +4,14 @@ import { ChevronDown } from "lucide-react";
 
 function SectionPrimary() {
   return (
-    <section className="h-screen w-full bg-linear-to-b from-blue-100 to-pink-100">
-      <div className="gap-7 h-full w-full flex flex-col items-center justify-center text-black">
+    <section className=" h-screen w-full bg-linear-to-b from-blue-100 to-pink-100">
+      <div className="py-16 sm:py-32 gap-7 h-full w-full flex flex-col items-center justify-center text-black">
         <div className="space-y-4 flex-col text-center">
           <span className="text-[#155DFC] text-xl">Hola soy</span>
-          <h1 className="text-6xl">Lorenzo Parra</h1>
-          <h2 className="text-3xl text-[#4A5565]">Full Stack Developer</h2>
+          <h1 className="text-5xl sm:text-6xl">Lorenzo Parra</h1>
+          <h2 className="text-2xl sm:text-4xl text-[#4A5565]">Full Stack Developer</h2>
           <div className="text-base w-full justify-center flex ">
-            <p className="w-[60%] text-xl text-[#4A5565]">
+            <p className="text-lg max-w-95  w-full sm:text-2xl sm:max-w-160  md:max-w-180  text-[#4A5565]">
               Creo experiencias digitales excepcionales que combinan diseño
               elegante con código robusto. Especializado en desarrollo web
               moderno y soluciones escalables.{" "}
@@ -39,7 +39,7 @@ function SectionPrimary() {
           <IconSocials />
         </div>
 
-        <div className="absolute bottom-8 flex w-full  justify-center items-center">
+        <div className="flex">
           <ChevronDown size={74} className="text-gray-500   animate-bounce" />
         </div>
       </div>

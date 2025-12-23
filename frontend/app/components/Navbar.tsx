@@ -51,7 +51,7 @@ export default function Navbar() {
           show
             ? "opacity-100 flex"
             : "opacity-0 -translate-x-full lg:translate-x-0 "
-        } lg:opacity-100 transition-all duration-500 ease-in-out lg:flex  fixed z-0 flex bg-[#191313] gap-12 lg:gap-0 w-fit h-screen lg:h-auto lg:w-full flex-col lg:flex-row text-white px-12 py-24 lg:px-6 lg:py-4  items-center  lg:justify-between shadow-md`}
+        } overflow-y-auto lg:opacity-100 transition-all duration-500 ease-in-out lg:flex  fixed z-0 flex bg-[#191313] gap-12 lg:gap-0 w-fit h-screen lg:h-auto lg:w-full flex-col lg:flex-row text-white px-12 py-24 lg:px-6 lg:py-4  items-center  lg:justify-between shadow-md`}
       >
         <Link className="hover:text-blue-400 text-xl  lg:text-lg xl:text-xl  font-semibold" href={"/#"}>
           Developer Full Stack
