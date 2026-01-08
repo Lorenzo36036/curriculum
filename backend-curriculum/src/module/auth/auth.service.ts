@@ -9,6 +9,7 @@ import { LoginAuthDto } from './dto/login-auth.dto';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from '../user/dto/create-user.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -17,15 +18,16 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser(loginAuthDto: LoginAuthDto) {
-    const { email, password } = loginAuthDto;
-
-    const user = await this.usersService.findOne(email);
+  async validateUser(email: string, password: string) {
+    const user = await this.usersService.findOneBy('email', email);
 
     if (!user) throw new BadRequestException('user not found');
     if (!user.isActive) throw new UnauthorizedException('user not exist');
-    if (user.password && !this.verificationLogin(password, user.password))
+
+    if (!user.password || !this.verificationLogin(password, user.password)) {
       throw new UnauthorizedException('password incorrect');
+    }
+
     return {
       uuid: user.uuid,
       username: user.username,
@@ -35,7 +37,7 @@ export class AuthService {
   }
 
   login(user: CreateUserDto) {
-    const payload = { email: user.email, name: user.name };
+    const payload = { email: user.email, username: user.username };
     return {
       message: 'user logged in successfully',
       access_token: this.jwtService.sign(payload),

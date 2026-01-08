@@ -3,6 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { jwtConstants } from '../constant/constants';
 import { UserService } from 'src/module/user/user.service';
+
 interface JwtPayload {
   uuid: string;
   iat: number;
@@ -19,7 +20,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  validate(payload: JwtPayload) {
-    return this.userService.findById(payload.uuid);
+  async validate(payload: JwtPayload) {
+    const user = await this.userService.findOneBy('uuid', payload.uuid);
+    return user;
   }
 }

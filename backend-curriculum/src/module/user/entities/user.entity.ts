@@ -4,11 +4,12 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  BeforeInsert,
 } from 'typeorm';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  uuid: string;
 
   @Column({ unique: true })
   email: string;
@@ -19,7 +20,7 @@ export class User {
   @Column({ select: false })
   password: string;
 
-  @Column({ default: true })
+  @Column({ default: true, select: false })
   isActive: boolean;
 
   @CreateDateColumn()
@@ -27,4 +28,11 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @BeforeInsert()
+  prepareData() {
+    this.email = this.email.trim().toLowerCase();
+    this.username = this.username.trim();
+    this.password = this.password.trim();
+  }
 }

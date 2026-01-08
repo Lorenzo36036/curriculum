@@ -6,7 +6,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { getEnv } from './tools/verificationEnv';
 import { UserModule } from './module/user/user.module';
 import { AuthModule } from './module/auth/auth.module';
-import { User } from './module/user/entities/user.entity';
 
 @Module({
   imports: [
