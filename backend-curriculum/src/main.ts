@@ -21,9 +21,9 @@ async function bootstrap() {
     }),
   );
   const config = new DocumentBuilder()
-    .setTitle('Stocktack')
+    .setTitle('curriculum')
     .addBearerAuth()
-    .setDescription('App of inventory')
+    .setDescription('backend-curriculum-Lorenzo-parra')
     .setVersion('1.0')
     .build();
 
