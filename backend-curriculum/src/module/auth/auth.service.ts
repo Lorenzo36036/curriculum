@@ -22,7 +22,7 @@ export class AuthService {
     const user = await this.usersService.findOneBy('email', email);
 
     if (!user) throw new BadRequestException('user not found');
-    if (!user.isActive) throw new UnauthorizedException('user not exist');
+    if (!user.isActive) throw new BadRequestException('user not exist');
 
     if (!user.password || !this.verificationLogin(password, user.password)) {
       throw new UnauthorizedException('password incorrect');
