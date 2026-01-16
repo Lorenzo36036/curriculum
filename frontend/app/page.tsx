@@ -1,3 +1,4 @@
+"use client";
 import AboutMe from "./components/AboutMe";
 import ContactMe from "./components/ContactMe";
 import EducationMe from "./components/EducationMe";
@@ -8,17 +9,19 @@ import ServicesMe from "./components/ServiceMe";
 import SkillsMe from "./components/SkillsMe";
 
 export default function Home() {
+  // const token = useSelector((state: RootState) => state.auth.token)
+
   return (
     <>
       <main className="bg-white  min-h-screen w-full ">
         <SectionPrimary />
-        <AboutMe/>
-        <SkillsMe/>
-        <EducationMe/>
+        <AboutMe />
+        <SkillsMe />
+        <EducationMe />
         <ServicesMe />
         <ProjectCard />
-        <ContactMe/>
-        <Footer/>
+        <ContactMe />
+        <Footer />
       </main>
     </>
   );
