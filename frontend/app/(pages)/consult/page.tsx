@@ -40,9 +40,8 @@ export default function ChatView() {
         </div>
         
         <button 
-          // onClick={handleLogout} // Comentado por ahora
           className="hover:scale-125 px-4 py-1.5 text-lg tracking-wide   font-semibold text-red-600 hover:text-red-500 rounded-full transition-all active:scale-95"
-          onClick={() => redirect('/')}
+          onClick={() => {redirect('/')}}
        >
           Salir
         </button>
