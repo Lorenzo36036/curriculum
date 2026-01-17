@@ -6,10 +6,13 @@ import FormField from "@/app/components/input/FormField";
 import Spiner from "@/app/components/Spiner";
 import ToastError from "@/app/components/toast/ToastError";
 import ToastSucefully from "@/app/components/toast/ToastSucefully";
+import { saveToken } from "@/app/store-redux/saveToken";
 import { LoginData, LoginDataSchema } from "@/app/tools/Zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { redirect } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 
 export default function Login() {
   const {
@@ -19,6 +22,8 @@ export default function Login() {
   } = useForm<LoginDataSchema>({
     resolver: zodResolver(LoginData),
   });
+  const dispatch = useDispatch<any>();
+  const [SendSucefullyBlock, setSendSucefullyBlock] = useState(false);
   const [load, setLoad] = useState(false);
   const [text, setText] = useState("");
   const [show, setShow] = useState(false);
@@ -27,10 +32,15 @@ export default function Login() {
   const onSubmitData = async (data: LoginDataSchema): Promise<void> => {
     setLoad(true);
     try {
-      await loginPost(data);
+      const response = await loginPost(data);
+      setSendSucefullyBlock(true);
       setSucefullyToast(true);
       setText("Login Exitoso");
       setShow(true);
+      if (response) dispatch(saveToken(response.access_token));
+      setTimeout(() => {
+        redirect("/");
+      }, 700);
     } catch (error: any) {
       setSucefullyToast(false);
       if (error.response.data.statusCode === 401) {
@@ -105,11 +115,11 @@ export default function Login() {
                 />
               </div>
               <button
-                disabled={load}
+                disabled={load || SendSucefullyBlock}
                 type="submit"
-                className="flex justify-center w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4   font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+                className={`flex justify-center w-full text-white ${SendSucefullyBlock ? "bg-gray-500 pointer-none" : " bg-blue-600 hover:bg-blue-700"} focus:ring-4   font-medium rounded-lg text-sm px-5 py-2.5 text-center` }
               >
-                {load ? <Spiner /> : "Crear cuenta"}
+                {load ? <Spiner /> : "Iniciar sesion"}
               </button>
               <p className="text-sm font-light text-gray-900 ">
                 No tienes cuenta?{" "}
