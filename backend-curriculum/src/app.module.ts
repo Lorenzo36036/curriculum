@@ -6,9 +6,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { getEnv } from './tools/verificationEnv';
 import { UserModule } from './module/user/user.module';
 import { AuthModule } from './module/auth/auth.module';
+import { EventGateway } from './event/event.gateway';
+import { EventModule } from './event/event.module';
 
 @Module({
   imports: [
+    EventModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -30,6 +33,6 @@ import { AuthModule } from './module/auth/auth.module';
     UserModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, EventGateway],
 })
 export class AppModule {}
