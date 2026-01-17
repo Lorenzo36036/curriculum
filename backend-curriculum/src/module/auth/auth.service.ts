@@ -4,6 +4,7 @@ import {
   UnauthorizedException,
   Delete,
   BadRequestException,
+  NotFoundException,
 } from '@nestjs/common';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { UserService } from '../user/user.service';
@@ -21,8 +22,8 @@ export class AuthService {
   async validateUser(email: string, password: string) {
     const user = await this.usersService.findOneBy('email', email);
 
-    if (!user) throw new BadRequestException('user not found');
-    if (!user.isActive) throw new UnauthorizedException('user not exist');
+    if (!user) throw new NotFoundException('user not found');
+    if (!user.isActive) throw new BadRequestException('user not exist');
 
     if (!user.password || !this.verificationLogin(password, user.password)) {
       throw new UnauthorizedException('password incorrect');
