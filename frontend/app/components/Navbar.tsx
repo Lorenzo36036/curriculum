@@ -26,10 +26,10 @@ export default function Navbar() {
       name: "Contacto",
       href: "/#contacto",
     },
-    // {
-    //   name: "Consultar",
-    //   href: "#consultar",
-    // },
+    {
+      name: "Consultar",
+      href: "Consult",
+    },
   ];
 
   return (

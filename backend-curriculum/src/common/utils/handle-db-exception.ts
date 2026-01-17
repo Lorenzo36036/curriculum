@@ -3,14 +3,9 @@ import {
   Logger,
   BadRequestException,
   InternalServerErrorException,
-  ConflictException,
 } from '@nestjs/common';
 
 export const handleDBExceptions = (error: any, logger: Logger) => {
-  if (error.status && error.response) {
-    throw error;
-  }
-
   logger.error(
     `Error code: ${error.code} - Message: ${error.message} - Detail: ${error.detail}`,
   );
@@ -23,7 +18,8 @@ export const handleDBExceptions = (error: any, logger: Logger) => {
   if (error.code === '23503')
     throw new BadRequestException('Table foreing no exits');
 
-  if (error.code === '23505') throw new ConflictException(`already exists`);
+  if (error.code === '23505')
+    throw new BadRequestException(`Product with this slug already exists`);
 
   if (error.code === '23514')
     throw new BadRequestException(`Violation of check please verify the data`);
