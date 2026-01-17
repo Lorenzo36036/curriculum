@@ -1,6 +1,6 @@
 import React from "react";
-import ServiceCard from "./serviceMe/CardService";
-import { servicesData } from "../assets/ServiceMe";
+import ServiceCard from "../CardService";
+import { servicesData } from "../../assets/ServiceMe";
 
 const ServicesMe = () => {
   return (

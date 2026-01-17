@@ -1,15 +1,15 @@
 // components/ContactPage.js
 "use client";
 import { Mail, Phone, MapPin, CheckCircle, Send } from "lucide-react";
-import IconSocials from "./IconSocials";
-import FormField from "./input/FormField";
+import IconSocials from "../IconSocials";
+import FormField from "../input/FormField";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormContactSchema, formContactData } from "../tools/Zod";
-import FormFieldTextarea from "./input/FormFieldTextarea";
-import { sendEmailToUser } from "../api/send";
+import { FormContactSchema, formContactData } from "../../tools/Zod";
+import FormFieldTextarea from "../input/FormFieldTextarea";
+import { sendEmailToUser } from "../../api/send";
 import { useState } from "react";
-import Spiner from "./Spiner";
+import Spiner from "../Spiner";
 
 const ContactPage = () => {
   const [send, setSend] = useState<boolean | null>(null);
