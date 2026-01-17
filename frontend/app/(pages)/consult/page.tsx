@@ -1,5 +1,6 @@
 "use client";
 
+import { redirect } from "next/navigation";
 import React from "react";
 // Comentado temporalmente: Redux y Router
 // import { useDispatch } from "react-redux";
@@ -40,8 +41,9 @@ export default function ChatView() {
         
         <button 
           // onClick={handleLogout} // Comentado por ahora
-          className="px-4 py-1.5 text-lg tracking-wide   font-semibold text-red-600 hover:text-red-500 rounded-full transition-all active:scale-95"
-        >
+          className="hover:scale-125 px-4 py-1.5 text-lg tracking-wide   font-semibold text-red-600 hover:text-red-500 rounded-full transition-all active:scale-95"
+          onClick={() => redirect('/')}
+       >
           Salir
         </button>
       </header>

@@ -1,4 +1,5 @@
 "use client";
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
@@ -19,14 +20,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
-      <Providers>
+    <Providers>
+      <html lang="es">
         <body
           className={`${geistSans.variable} ${geistMono.variable} w-screen h-screen antialiased`}
         >
           {children}
         </body>
-      </Providers>
-    </html>
+      </html>
+    </Providers>
   );
 }
