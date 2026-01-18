@@ -10,7 +10,8 @@ const FormFieldTextarea = <T extends FieldValues>({
   placeholder,
   register,
   error,
-  valueAsNumber
+  valueAsNumber,
+  disable,
 }: FormFielTextareadProps<T>) => {
   const [errorData, setErrorData] = useState("");
 
@@ -23,6 +24,7 @@ const FormFieldTextarea = <T extends FieldValues>({
   return (
     <div>
       <textarea
+        disabled={disable}
         id={id}
         rows={6}
         className="block w-full px-5 py-4 border-gray-400  rounded-lg shadow-sm placeholder-gray-300 focus:outline-blue-500 focus:border-blue-500 sm:text-base border resize-none"

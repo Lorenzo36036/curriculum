@@ -10,13 +10,16 @@ import FormFieldTextarea from "../input/FormFieldTextarea";
 import { sendEmailToUser } from "../../api/send";
 import { useState } from "react";
 import Spiner from "../Spiner";
+import FormContactMePost from "@/app/api/FormContactMePostPost";
 
 const ContactPage = () => {
   const [send, setSend] = useState<boolean | null>(null);
   const [dowload, setDowload] = useState<boolean>(false);
+  const [desactive, setDesactive] = useState(false);
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormContactSchema>({
     resolver: zodResolver(formContactData),
@@ -25,10 +28,13 @@ const ContactPage = () => {
   const onSubmitData = async (data: FormContactSchema): Promise<void> => {
     try {
       setDowload(true);
+      await FormContactMePost(data);
       const res = await sendEmailToUser(data);
-      console.log("SUCCESS", res);
       setSend(res.success);
+      setDesactive(true);
+      reset();
     } catch (error: unknown) {
+      setDesactive(false);
       if (error instanceof Error) {
         throw new Error(error.message);
       } else {
@@ -163,7 +169,7 @@ const ContactPage = () => {
                   htmlFor="name"
                   className="block text-sm font-semibold text-gray-700"
                 >
-                  Nombre 
+                  Nombre
                 </label>
                 <FormField
                   id="name"
@@ -172,6 +178,7 @@ const ContactPage = () => {
                   name="name"
                   register={register}
                   error={errors.name}
+                  disable={desactive}
                 />
               </div>
 
@@ -180,7 +187,7 @@ const ContactPage = () => {
                   htmlFor="email"
                   className="block text-sm font-semibold text-gray-700"
                 >
-                  Email 
+                  Email
                 </label>
                 <FormField
                   id="email"
@@ -189,6 +196,7 @@ const ContactPage = () => {
                   name="email"
                   register={register}
                   error={errors.email}
+                  disable={desactive}
                 />
               </div>
 
@@ -197,7 +205,7 @@ const ContactPage = () => {
                   htmlFor="subject"
                   className="block text-sm font-semibold text-gray-700"
                 >
-                  Asunto 
+                  Asunto
                 </label>
 
                 <FormField
@@ -207,6 +215,7 @@ const ContactPage = () => {
                   name="subject"
                   register={register}
                   error={errors.subject}
+                  disable={desactive}
                 />
               </div>
 
@@ -215,7 +224,7 @@ const ContactPage = () => {
                   htmlFor="mensaje"
                   className="block text-sm font-semibold text-gray-700"
                 >
-                  Mensaje 
+                  Mensaje
                 </label>
                 <FormFieldTextarea
                   id="message"
@@ -223,6 +232,7 @@ const ContactPage = () => {
                   name="message"
                   register={register}
                   error={errors.message}
+                  disable={desactive}
                 />
               </div>
 
@@ -234,7 +244,7 @@ const ContactPage = () => {
                       ? "bg-gray-400"
                       : "hover:bg-blue-700 hover:shadow-xl"
                   } w-full inline-flex items-center justify-center px-8 py-4 border border-transparent rounded-lg text-lg font-bold text-white bg-blue-600  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:outline-blue-500 transition-all duration-200 shadow-lg `}
-                  disabled={send === true}
+                  disabled={send === true || dowload}
                 >
                   {dowload ? (
                     <Spiner />
