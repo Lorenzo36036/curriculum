@@ -12,6 +12,7 @@ const FormField = <T extends FieldValues>({
   register,
   error,
   valueAsNumber,
+  disable
 }: FormFieldProps<T>) => {
   const [errorData, setErrorData] = useState("");
 
@@ -25,10 +26,11 @@ const FormField = <T extends FieldValues>({
     <div>
       <input
         id={id}
-        className=" bg-gray-50 border border-gray-300 focus:outline-blue-500 text-gray-900 text-sm rounded-lg  block w-full p-2.5"
+        className="pointer-allowed bg-gray-50 border border-gray-300 focus:outline-blue-500 text-gray-900 text-sm rounded-lg  block w-full p-2.5"
         type={type}
         placeholder={placeholder}
         {...register(name, { valueAsNumber })}
+        disabled={disable}
       />
       <span
         className={`ease-in-out absolute duration-300 transition-all  text-red-600

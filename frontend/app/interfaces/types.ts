@@ -15,6 +15,7 @@ export type FormFieldProps<T extends FieldValues> = {
   register: UseFormRegister<T>;
   error: FieldError | undefined;
   valueAsNumber?: boolean;
+  disable: boolean
 };
 
 
@@ -26,6 +27,7 @@ export type FormFielTextareadProps<T extends FieldValues> = {
   register: UseFormRegister<T>;
   error: FieldError | undefined;
   valueAsNumber?: boolean;
+  disable: boolean
 };
 
 
