@@ -1,15 +1,36 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
+import { jwtDecode } from "jwt-decode";
 interface AuthState {
-  token: string | null | '';
+  token: any;
 }
 
-// 1. Función para obtener el token de forma segura
-const getInitialToken = (): string | null => {
-  if (typeof window !== "undefined") {
-    return localStorage.getItem("token");
+function verificationToken(token: any) {
+  const actually = Math.floor(Date.now() / 1000);
+  
+  if (actually > token.exp) {
+    localStorage.removeItem("token");
+    return true;
   }
-  return null;
+  return false;
+}
+
+const getInitialToken = () => {
+  if (typeof window !== "undefined") {
+    let localStorageEliminated = false;
+    let tokenDecode = "";
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      tokenDecode = jwtDecode(token);
+      localStorageEliminated = verificationToken(tokenDecode);
+    } else {
+      return null;
+    }
+
+    if (localStorageEliminated) return null;
+    return token;
+  }
 };
 
 const initialState: AuthState = {
@@ -20,15 +41,14 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    saveToken: (state , action: PayloadAction<string>) => {
-      state.token = action.payload;     
+    saveToken: (state, action: PayloadAction<string>) => {
+      state.token = action.payload;
       localStorage.setItem("token", action.payload);
     },
 
     clearToken: (state) => {
       state.token = null;
-        localStorage.removeItem("token");
-      
+      localStorage.removeItem("token");
     },
   },
 });
