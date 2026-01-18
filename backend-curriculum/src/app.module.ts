@@ -10,6 +10,7 @@ import { EventGateway } from './event/event.gateway';
 import { EventModule } from './event/event.module';
 import { InformationMeModule } from './information-me/information-me.module';
 import { SeedModule } from './module/seed/seed.module';
+import { FormModule } from './module/form/form.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { SeedModule } from './module/seed/seed.module';
     UserModule,
     InformationMeModule,
     SeedModule,
+    FormModule,
   ],
   controllers: [AppController],
   providers: [AppService, EventGateway],
