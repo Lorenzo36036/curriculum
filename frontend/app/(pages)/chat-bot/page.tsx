@@ -131,7 +131,10 @@ const ChatPage = () => {
         </div>
         <button
           className="px-4 py-1.5 font-semibold text-red-600 hover:scale-125 text-lg hover:bg-red-50 rounded-full transition-all"
-          onClick={() => redirect("/")}
+          onClick={() => {
+            alert("Si sales el chat se reseteara");
+            redirect("/");
+          }}
         >
           Salir
         </button>
