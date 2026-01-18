@@ -18,6 +18,7 @@ import { EventModule } from './event/event.module';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
+        ssl: process.env.STAGE === 'produccion' ? true : false,
         type: 'postgres',
         host: getEnv<string>(configService, 'POSTGRES_HOST'),
         port: parseInt(getEnv<string>(configService, 'POSTGRES_PORT')),
