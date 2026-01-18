@@ -8,6 +8,8 @@ import { UserModule } from './module/user/user.module';
 import { AuthModule } from './module/auth/auth.module';
 import { EventGateway } from './event/event.gateway';
 import { EventModule } from './event/event.module';
+import { InformationMeModule } from './information-me/information-me.module';
+import { SeedModule } from './module/seed/seed.module';
 
 @Module({
   imports: [
@@ -31,6 +33,8 @@ import { EventModule } from './event/event.module';
     }),
     AuthModule,
     UserModule,
+    InformationMeModule,
+    SeedModule,
   ],
   controllers: [AppController],
   providers: [AppService, EventGateway],
