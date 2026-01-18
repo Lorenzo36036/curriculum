@@ -1,7 +1,6 @@
 "use server";
 import { Resend } from "resend";
 
-
 export async function sendEmailToUser({
   name,
   email,
@@ -15,7 +14,10 @@ export async function sendEmailToUser({
 }) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
-    return {success: false, error: "La API Key no está configurada en el servidor"};    
+    return {
+      success: false,
+      error: "La API Key no está configurada en el servidor",
+    };
   }
   const resend = new Resend(apiKey);
 
@@ -32,12 +34,12 @@ export async function sendEmailToUser({
     });
 
     if (error) {
-      return {success: false};
+      return { success: false };
     }
 
     return { success: true, data };
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    return {success: false};
+    return { success: false };
   }
 }

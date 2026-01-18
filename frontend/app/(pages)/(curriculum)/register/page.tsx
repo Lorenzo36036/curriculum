@@ -22,7 +22,7 @@ export default function Register() {
   const [text, setText] = useState("");
   const [show, setShow] = useState(false);
   const [sucefullyToast, setSucefullyToast] = useState(false);
- 
+
   const onSubmitData = async (data: RegisterDataSchema): Promise<void> => {
     setLoad(true);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -82,6 +82,7 @@ export default function Register() {
                     name="username"
                     register={register}
                     error={errors.username}
+                    disable={false}
                   />
                 </div>
 
@@ -99,6 +100,7 @@ export default function Register() {
                     name="email"
                     register={register}
                     error={errors.email}
+                    disable={false}
                   />
                 </div>
                 <div>
@@ -115,6 +117,7 @@ export default function Register() {
                     register={register}
                     error={errors.password}
                     id={"password"}
+                    disable={false}
                   />
                 </div>
                 <div>
@@ -132,6 +135,7 @@ export default function Register() {
                     register={register}
                     error={errors.confirmPassword}
                     id={"confirm-password"}
+                    disable={false}
                   />
                 </div>
                 <div className="flex items-start">

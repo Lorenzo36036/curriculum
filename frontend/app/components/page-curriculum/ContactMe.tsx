@@ -10,6 +10,7 @@ import FormFieldTextarea from "../input/FormFieldTextarea";
 import { sendEmailToUser } from "../../api/send";
 import { useState } from "react";
 import Spiner from "../Spiner";
+import FormContactMePost from "@/app/api/FormContactMePostPost";
 
 const ContactPage = () => {
   const [send, setSend] = useState<boolean | null>(null);
@@ -27,6 +28,7 @@ const ContactPage = () => {
   const onSubmitData = async (data: FormContactSchema): Promise<void> => {
     try {
       setDowload(true);
+      await FormContactMePost(data);
       const res = await sendEmailToUser(data);
       setSend(res.success);
       setDesactive(true);

@@ -96,6 +96,7 @@ export default function Login() {
                   name="email"
                   register={register}
                   error={errors.email}
+                  disable={false}
                 />
               </div>
               <div>
@@ -112,12 +113,13 @@ export default function Login() {
                   register={register}
                   error={errors.password}
                   id={"password"}
+                  disable={false}
                 />
               </div>
               <button
                 disabled={load || SendSucefullyBlock}
                 type="submit"
-                className={`flex justify-center w-full text-white ${SendSucefullyBlock ? "bg-gray-500 pointer-none" : " bg-blue-600 hover:bg-blue-700"} focus:ring-4   font-medium rounded-lg text-sm px-5 py-2.5 text-center` }
+                className={`flex justify-center w-full text-white ${SendSucefullyBlock ? "bg-gray-500 pointer-none" : " bg-blue-600 hover:bg-blue-700"} focus:ring-4   font-medium rounded-lg text-sm px-5 py-2.5 text-center`}
               >
                 {load ? <Spiner /> : "Iniciar sesion"}
               </button>
