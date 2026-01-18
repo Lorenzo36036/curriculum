@@ -79,7 +79,7 @@ export default function Navbar() {
                 alert("Por favor logeate primero");
                 router.push("/login");
               } else {
-                router.push("/consult");
+                router.push("/chat-bot");
               }
             }}
             className="hover:text-blue-400 text-lg xl:text-xl font-normal"
