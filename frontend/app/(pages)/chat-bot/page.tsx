@@ -53,54 +53,60 @@ const ChatPage = () => {
     initContext();
   }, []);
 
-  // Scroll automático al final de los mensajes
+ 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
   async function chatBot(userPrompt: string) {
     if (!webContext) return;
 
     setLoading(true);
-    try {
-      const userMessage: Message = {
-        id: Date.now(),
-        sender: "user",
-        text: userPrompt,
-      };
-      setMessages((prev) => [...prev, userMessage]);
+    const userMessage: Message = {
+      id: Date.now(),
+      sender: "user",
+      text: userPrompt,
+    };
+    setMessages((prev) => [...prev, userMessage]);
 
-      const model = genAI.getGenerativeModel({
-        model: "gemini-3-flash-preview",
-        systemInstruction: `
-          Eres un asistente IA de Lorenzo Parra. Tu objetivo es ayudar a los visitantes.
-          REGLAS:
-          1. Usa EXCLUSIVAMENTE este contexto: ${webContext}
-          2. Si no sabes algo, ofrece contacto: alejandro36036@email.com.
-          3. Tono: Profesional y tecnológico.
-          4. Temperatura: 0.
-          ESTRUCTURA DE RESPUESTA:
-          - Sé conciso. Al final ofrece siempre 3 sugerencias: 
-            1. 🛠️ Servicios | 2. 📄 Experiencia | 3. ✉️ Contacto
-        `,
-      });
+    let attempts = 0;
+    const maxAttempts = 3;
+    let success = false; 
 
-      const result = await model.generateContent(userPrompt);
-      const botText = result.response.text();
+    while (attempts < maxAttempts && !success) {
+      try {
+        const model = genAI.getGenerativeModel({
+          model: "gemini-1.5-flash", 
+          systemInstruction: `...tu instrucción...`,
+        });
 
-      const botMessage: Message = {
-        id: Date.now() + 1,
-        sender: "bot",
-        text: botText,
-      };
-      setMessages((prev) => [...prev, botMessage]);
-    } catch (error) {
-      console.error("Error en ChatBot:", error);
-    } finally {
-      setLoading(false);
+        const result = await model.generateContent(userPrompt);
+        const botText = result.response.text();
+
+        setMessages((prev) => [
+          ...prev,
+          { id: Date.now() + 1, sender: "bot", text: botText },
+        ]);
+        success = true; 
+      } catch (error: any) {
+        attempts++;
+        const isQuotaError = error.status === 429 || error.message?.includes("429") || error.message?.includes("quota");
+
+        if (isQuotaError && attempts < maxAttempts) {
+          await delay(attempts * 2000);
+        } else {
+          const errorMsg = isQuotaError 
+            ? "Lo siento, Lorenzo ha recibido muchas consultas hoy. Intenta de nuevo en un minuto."
+            : "Lo siento, Lorenzo ha recibido muchas consultas hoy. Intenta de nuevo en un minuto.";
+          
+          setMessages((prev) => [...prev, { id: Date.now(), sender: "bot", text: errorMsg }]);
+          break; 
+        }
+      }
     }
+    setLoading(false); // Se apaga solo al final de todo el proceso
   }
-
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!inputValue.trim() || loading) return;
