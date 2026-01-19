@@ -22,7 +22,7 @@ const ChatPage = () => {
   const token = useSelector((state: RootState) => state.auth.token);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
-  const [webContext, setWebContext] = useState("");
+  const [webContext, setWebContext] = useState(""); 
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -35,6 +35,13 @@ const ChatPage = () => {
 
   useEffect(() => {
     const initContext = async () => {
+      const cachedContext = localStorage.getItem("lorenzo_cv_cache");
+
+      if (cachedContext) {
+        setWebContext(cachedContext);
+        return;
+      }
+
       let contextoWeb = "";
       try {
         const res = await fetch(
@@ -43,6 +50,7 @@ const ChatPage = () => {
         const html = await res.text();
         const doc = new DOMParser().parseFromString(html, "text/html");
         contextoWeb = doc.body.innerText.replace(/\s+/g, " ");
+        localStorage.setItem("lorenzo_cv_cache", contextoWeb);
       } catch (error: any) {
         console.error("Error leyendo la URL, usando respaldo local.");
         contextoWeb =
@@ -57,61 +65,55 @@ const ChatPage = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
   async function chatBot(userPrompt: string) {
     if (!webContext) return;
 
     setLoading(true);
-    const userMessage: Message = {
-      id: Date.now(),
-      sender: "user",
-      text: userPrompt,
-    };
-    setMessages((prev) => [...prev, userMessage]);
+    try {
+      const userMessage: Message = {
+        id: Date.now(),
+        sender: "user",
+        text: userPrompt,
+      };
+      setMessages((prev) => [...prev, userMessage]);
 
-    let attempts = 0;
-    const maxAttempts = 3;
-    let success = false;
+      const model = genAI.getGenerativeModel({
+        model: "gemini-3-flash-preview",
+        systemInstruction: `
+          Eres un asistente IA de Lorenzo Parra. Tu objetivo es ayudar a los visitantes.
+          REGLAS:
+          1. Usa EXCLUSIVAMENTE este contexto: ${webContext}
+          2. Si no sabes algo, ofrece contacto: alejandro36036@email.com.
+          3. Tono: Profesional y tecnológico.
+          4. Temperatura: 0.
+          ESTRUCTURA DE RESPUESTA:
+          - Sé conciso. Al final ofrece siempre 3 sugerencias: 
+            1. 🛠️ Servicios | 2. 📄 Experiencia | 3. ✉️ Contacto
+        `,
+      });
 
-    while (attempts < maxAttempts && !success) {
-      try {
-        const model = genAI.getGenerativeModel({
-          model: "gemini-1.5-flash",
-          systemInstruction: `...tu instrucción...`,
-        });
+      const result = await model.generateContent(userPrompt);
+      const botText = await result.response.text();
+      const botMessage: Message = {
+        id: Date.now() + 1,
+        sender: "bot",
+        text: botText,
+      };
+      setMessages((prev) => [...prev, botMessage]);
+    } catch (error) {
+      console.error("Error en ChatBot:", error);
+      const botMessage: Message = {
+        id: Date.now() + 1,
+        sender: "bot",
+        text: "Lo siento he respondido muchas preguntas hoy, contactar a alejandro36036@gmail.com",
+      };
 
-        const result = await model.generateContent(userPrompt);
-        const botText = result.response.text();
-
-        setMessages((prev) => [
-          ...prev,
-          { id: Date.now() + 1, sender: "bot", text: botText },
-        ]);
-        success = true;
-      } catch (error: any) {
-        attempts++;
-        const isQuotaError =
-          error.status === 429 ||
-          error.message?.includes("429") ||
-          error.message?.includes("quota");
-
-        if (isQuotaError && attempts < maxAttempts) {
-          await delay(attempts * 2000);
-        } else {
-          const errorMsg = isQuotaError
-            ? "Lo siento, Lorenzo ha recibido muchas consultas hoy. Intenta de nuevo en un minuto."
-            : "¡Vaya! He respondido muchas preguntas hoy. Por favor, espera un minuto o contáctame directamente a alejandro36036@email.com.";
-
-          setMessages((prev) => [
-            ...prev,
-            { id: Date.now(), sender: "bot", text: errorMsg },
-          ]);
-          break;
-        }
-      }
+      setMessages((prev) => [...prev, botMessage]);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false); // Se apaga solo al final de todo el proceso
   }
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!inputValue.trim() || loading) return;
@@ -141,11 +143,10 @@ const ChatPage = () => {
           </div>
         </div>
         <button
-          className="px-4 py-1.5 font-semibold text-red-600 hover:scale-125 text-lg hover:bg-red-50 rounded-full transition-all"
+          className="hover:scale-125 text-lg px-4 py-1.5  font-semibold text-red-600 hover:bg-red-50 rounded-full transition-all"
           onClick={() => {
-            alert("Si sales el chat se reseteara");
-            redirect("/");
-          }}
+            alert("Si sales se reseteara el chat")
+            redirect("/")}}
         >
           Salir
         </button>
@@ -158,7 +159,7 @@ const ChatPage = () => {
             className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"} mb-4`}
           >
             <div
-              className={`px-4 py-2 rounded-2xl max-w-220 shadow-sm ${
+              className={`px-4 py-2 rounded-2xl max-w-[80%] shadow-sm ${
                 message.sender === "user"
                   ? "bg-blue-600 text-white rounded-tr-none"
                   : "bg-white text-slate-800 border border-slate-200 rounded-tl-none"
