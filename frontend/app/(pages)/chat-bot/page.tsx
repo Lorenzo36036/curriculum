@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { useState, useEffect, FormEvent, useRef } from "react";
 import { useSelector } from "react-redux";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import Card from "./card";
 
 type Message = {
   id: number;
@@ -18,12 +19,72 @@ const genAI = new GoogleGenerativeAI(
   process.env.NEXT_PUBLIC_CHATBOT_API_KEY as string,
 );
 
+const FAQ_CARDS = [
+  {
+    id: "Servicios",
+    label: "🛠️ Servicios",
+    response: `Lorenzo ofrece soluciones web integrales con un enfoque en escalabilidad y rendimiento:
+===============
+• 💻 Desarrollo Full Stack: Apps completas con React/Next.js y Node.js (Desde 1.500$).
+
+• 📱 Aplicaciones Responsive: Diseño mobile-first y PWA optimizadas (Desde 1.500$).
+
+• 🗄️ Bases de Datos: Modelado eficiente, SQL/NoSQL y migraciones (Desde 1.200$).
+
+• ☁️ Cloud & DevOps: Despliegue en Vercel, Render y gestión de CI/CD (Desde 1.000$).
+
+• ⚡ Optimización: Mejora de velocidad, carga y SEO técnico (Desde 1.000$).
+
+• 🔧 Mantenimiento: Soporte continuo y actualizaciones (Desde 500$/mes).
+===============
+¿Hay algún servicio específico sobre el que desees profundizar o solicitar un presupuesto? Presiona la seccion de ✉️ Contacto`,
+  },
+  {
+    id: "Experiencia",
+    label: "📄 Experiencia",
+    response: `Lorenzo cuenta con un año de trayectoria técnica enfocada en el ciclo de vida completo de aplicaciones modernas. 
+Especialista en el despliegue de arquitecturas Full Stack:
+
+• 🚀 Frontend: Optimización y hosting profesional en Vercel.
+• ⚙️ Backend: Gestión de servicios, APIs y bases de datos desplegadas en Render.
+  
+Domina flujos de trabajo de Integración y Despliegue Continuo (CI/CD), asegurando que cada proyecto sea escalable, estable y esté disponible en entornos de producción reales.`,
+  },
+  {
+    id: "Contacto",
+    label: "✉️ Contacto",
+    response: `
+Lorenzo está a un mensaje de distancia para impulsar tu próximo proyecto! Puedes conectar con ella a través de sus canales oficiales:
+
+📧 Correo Profesional: alejandro36036@email.com (Consultas directas y propuestas).
+
+💼 LinkedIn: https://www.linkedin.com/in/lorenzo-parra-594456217/ (Networking y trayectoria profesional).
+
+🚀 GitHub: https://github.com/Lorenzo36036 (Explora sus repositorios y calidad de código).
+
+🌐  Teléfono: 04249701950 (WhatsApp/Telegram)
+    `,
+  },
+  {
+    id: "Entregas",
+    label: "💻  Entregas",
+    response: `La duración de la entrega depende de la complejidad y los requisitos del sistema:
+
+🔹 Página Simple / Landing Page: 3-4 semanas.
+🔹 Página Mediana Empresarial: 6-8 semanas (incluye integraciones y paneles de gestión).
+🔹 Página Grande Empresarial / E-commerce: 10-14 semanas (sistemas complejos, pagos y alta escalabilidad).
+
+¡Cada proyecto cuenta con un cronograma detallado para asegurar la calidad en cada fase!`,
+  },
+];
+
 const ChatPage = () => {
   const token = useSelector((state: RootState) => state.auth.token);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
-  const [webContext, setWebContext] = useState(""); 
+  const [webContext, setWebContext] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -102,10 +163,11 @@ const ChatPage = () => {
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
       console.error("Error en ChatBot:", error);
+      setError(true);
       const botMessage: Message = {
         id: Date.now() + 1,
         sender: "bot",
-        text: "Lo siento he respondido muchas preguntas hoy, contactar a alejandro36036@gmail.com",
+        text: "Lo siento selecciona las tarjetas que ves abajo, ya que estoy saturado de peticiones :)",
       };
 
       setMessages((prev) => [...prev, botMessage]);
@@ -121,6 +183,24 @@ const ChatPage = () => {
     const textToSend = inputValue;
     setInputValue("");
     await chatBot(textToSend);
+  };
+
+  const chatBotCarResponse = (userPrompt: string, botResponse: string) => {
+    const userMessage: Message = {
+      id: Date.now(),
+      sender: "user",
+      text: userPrompt,
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+
+    const botMessage: Message = {
+      id: Date.now() + 1,
+      sender: "bot",
+      text: botResponse,
+    };
+
+    setMessages((prev) => [...prev, botMessage]);
   };
 
   return (
@@ -145,8 +225,9 @@ const ChatPage = () => {
         <button
           className="hover:scale-125 text-lg px-4 py-1.5  font-semibold text-red-600 hover:bg-red-50 rounded-full transition-all"
           onClick={() => {
-            alert("Si sales se reseteara el chat")
-            redirect("/")}}
+            alert("Si sales se reseteara el chat");
+            redirect("/");
+          }}
         >
           Salir
         </button>
@@ -182,6 +263,21 @@ const ChatPage = () => {
         <div ref={messagesEndRef} />
       </div>
 
+      <div className="sm:p-0 w-screen overflow-auto scrollbar-hide h-16">
+        <div className="flex justify-start sm:justify-center gap-8">
+          {FAQ_CARDS.map((car) => (
+            <div
+              key={car.id}
+              onClick={() => {
+                chatBotCarResponse(car.id, car.response);
+              }}
+            >
+              <Card title={car.label} />
+            </div>
+          ))}
+        </div>
+      </div>
+
       <form
         onSubmit={handleSubmit}
         className="p-4 bg-white border-t border-slate-100 flex gap-2"
@@ -192,7 +288,7 @@ const ChatPage = () => {
           onChange={(e) => setInputValue(e.target.value)}
           placeholder="Pregunta sobre servicios o experiencia..."
           className="flex-1 border border-slate-300 text-slate-900 px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-          disabled={loading}
+          disabled={loading || error}
         />
         <button
           type="submit"
