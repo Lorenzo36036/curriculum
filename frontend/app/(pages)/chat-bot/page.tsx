@@ -53,7 +53,6 @@ const ChatPage = () => {
     initContext();
   }, []);
 
- 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -72,12 +71,12 @@ const ChatPage = () => {
 
     let attempts = 0;
     const maxAttempts = 3;
-    let success = false; 
+    let success = false;
 
     while (attempts < maxAttempts && !success) {
       try {
         const model = genAI.getGenerativeModel({
-          model: "gemini-1.5-flash", 
+          model: "gemini-1.5-flash",
           systemInstruction: `...tu instrucción...`,
         });
 
@@ -88,20 +87,26 @@ const ChatPage = () => {
           ...prev,
           { id: Date.now() + 1, sender: "bot", text: botText },
         ]);
-        success = true; 
+        success = true;
       } catch (error: any) {
         attempts++;
-        const isQuotaError = error.status === 429 || error.message?.includes("429") || error.message?.includes("quota");
+        const isQuotaError =
+          error.status === 429 ||
+          error.message?.includes("429") ||
+          error.message?.includes("quota");
 
         if (isQuotaError && attempts < maxAttempts) {
           await delay(attempts * 2000);
         } else {
-          const errorMsg = isQuotaError 
+          const errorMsg = isQuotaError
             ? "Lo siento, Lorenzo ha recibido muchas consultas hoy. Intenta de nuevo en un minuto."
-            : "Lo siento, Lorenzo ha recibido muchas consultas hoy. Intenta de nuevo en un minuto.";
-          
-          setMessages((prev) => [...prev, { id: Date.now(), sender: "bot", text: errorMsg }]);
-          break; 
+            : "¡Vaya! He respondido muchas preguntas hoy. Por favor, espera un minuto o contáctame directamente a alejandro36036@email.com.";
+
+          setMessages((prev) => [
+            ...prev,
+            { id: Date.now(), sender: "bot", text: errorMsg },
+          ]);
+          break;
         }
       }
     }
