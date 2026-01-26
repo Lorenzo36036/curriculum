@@ -2,7 +2,7 @@ import React from "react";
 import ServiceCard from "../CardService";
 import { servicesData } from "../../assets/ServiceMe";
 
-const ServicesMe = () => {
+const ServicesMe = async () => {
   return (
     <section id="servicios" className="bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">

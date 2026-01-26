@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Code2, Database, Globe, Smartphone, Server, Cpu } from "lucide-react";
 const projects = [
   {
     title: "Eprisma Blog",
-    description: "Blog informativo desarrollado con arquitectura moderna para alto rendimiento y SEO.",
+    description:
+      "Blog informativo desarrollado con arquitectura moderna para alto rendimiento y SEO.",
     technologies: [
       { name: "React", icon: <Code2 size={14} /> },
       { name: "Next.js", icon: <Globe size={14} /> },
@@ -13,7 +15,8 @@ const projects = [
   },
   {
     title: "Torna App",
-    description: "Desarrollo de una aplicación móvil de streaming; trabajé de la mano en la maquetación y en el frontend.",
+    description:
+      "Desarrollo de una aplicación móvil de streaming; trabajé de la mano en la maquetación y en el frontend.",
     technologies: [
       { name: "React Native", icon: <Smartphone size={14} /> },
       { name: "Tailwind", icon: <Cpu size={14} /> },
@@ -23,7 +26,8 @@ const projects = [
   },
   {
     title: "PgAdmin Web",
-    description: "Gestor web para PgAdmin4 que permite un análisis fácil de datos y administración de bases de datos relacionales.",
+    description:
+      "Gestor web para PgAdmin4 que permite un análisis fácil de datos y administración de bases de datos relacionales.",
     technologies: [
       { name: "React", icon: <Code2 size={14} /> },
       { name: "Next.js", icon: <Globe size={14} /> },
@@ -34,7 +38,14 @@ const projects = [
   },
 ];
 
-export default function ProjectCarousel() {
+export default async function ProjectCarousel() {
+  const response = await fetch(
+    process.env.NEXT_PUBLIC_GET_PERSONAL_PROJECTS_URL as string,
+    {
+      method: "GET",
+    },
+  );
+  const data = await response.json();
   return (
     <div id="proyectos" className="bg-gray-50 py-24">
       <div className="text-center mb-12">
@@ -75,7 +86,7 @@ export default function ProjectCarousel() {
           </div>
         ))}
       </div>
-      
+
       <p className="text-center text-gray-400 text-sm mt-4 md:hidden">
         ← Desliza para ver más →
       </p>

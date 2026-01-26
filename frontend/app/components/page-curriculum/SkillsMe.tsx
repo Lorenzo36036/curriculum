@@ -1,7 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
 import { skillsData } from "../../assets/SkillMe";
 
-const SkillsMe = () => {
+const SkillsMe = async () => {
+  const response = await fetch(
+    process.env.NEXT_PUBLIC_GET_SKILLS_URL as string,
+    {
+      method: "GET",
+    },
+  );
+
+  const data = await response.json();
+
   return (
     <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-7xl mx-auto">
